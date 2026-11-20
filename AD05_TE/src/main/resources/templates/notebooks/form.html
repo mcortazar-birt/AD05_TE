@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Formulario de cuaderno')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container py-4 form-page">
+    <h1 th:text="${editId == null} ? 'Nuevo cuaderno' : 'Editar cuaderno'"></h1>
+    <form method="post" th:object="${notebookForm}"
+          th:action="${editId == null} ? @{/notebooks/new} : @{/notebooks/{id}/edit(id=${editId})}">
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="mb-0"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="name">Nombre</label>
+            <input class="form-control" type="text" id="name" th:field="*{name}" maxlength="100" required
+                   th:errorclass="is-invalid" aria-describedby="name-error">
+            <div class="invalid-feedback" id="name-error" th:errors="*{name}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="description">Descripción</label>
+            <input class="form-control" type="text" id="description" th:field="*{description}" maxlength="200" required
+                   th:errorclass="is-invalid" aria-describedby="description-error">
+            <div class="invalid-feedback" id="description-error" th:errors="*{description}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="subject">Sujeto</label>
+            <input class="form-control" type="text" id="subject" th:field="*{subject}" maxlength="60"
+                   th:errorclass="is-invalid" aria-describedby="subject-error">
+            <div class="invalid-feedback" id="subject-error" th:errors="*{subject}"></div>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label" for="color">Color</label>
+            <select class="form-select" type="number" id="color" th:field="*{color}" required
+                    th:errorclass="is-invalid" aria-describedby="color-error">
+                <option value="">Selecciona un color</option>
+                <option th:each="colorOption, iter : ${NotebookColorMap.getColors()}" 
+                        th:value="${iter.index}" 
+						th:text="${colorOption}"                        
+						th:selected="${iter.index == notebookForm.color}">
+                </option>
+            </select>
+            <div class="invalid-feedback" id="color-error" th:errors="*{color}"></div>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label" for="favorite">Favorito</label>
+            <input type="checkbox" id="favorite" th:field="*{favorite}"
+                   th:errorclass="is-invalid" aria-describedby="favorite-error">
+            <div class="invalid-feedback" id="favorite-error" th:errors="*{favorite}"></div>
+        </div>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        <a class="btn btn-outline-secondary" th:href="@{/notebooks}">Cancelar</a>
+    </form>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

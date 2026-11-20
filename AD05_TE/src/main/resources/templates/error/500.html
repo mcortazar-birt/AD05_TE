@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Error 500')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container py-4"><h1>Error 500</h1><p>Ha ocurrido un error. Consulta la consola de la aplicación.</p><a th:href="@{/}">Inicio</a></main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

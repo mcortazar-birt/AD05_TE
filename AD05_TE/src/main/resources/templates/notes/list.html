@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Notas')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container py-4">
+    <h1>Notas</h1>
+    <div th:replace="~{fragments/layout :: messages}"></div>
+    <a class="btn btn-primary mb-3" th:href="@{/notes/new}">Nueva nota</a>
+    <form method="get" th:action="@{/notes}" class="row g-2 mb-3">
+        <div class="col-sm-7"><label class="form-label" for="q">Filtrar por título</label>
+            <input class="form-control" id="q" name="q" th:value="${q}"></div>
+        <div class="col-sm-auto align-self-end"><button class="btn btn-outline-primary" type="submit">Buscar</button>
+            <a class="btn btn-outline-secondary" th:href="@{/notes}">Ver todas</a></div>
+    </form>
+    <p th:if="${#lists.isEmpty(notes)}" class="alert alert-info">No hay notas para mostrar.</p>
+    <div class="table-responsive" th:unless="${#lists.isEmpty(notes)}">
+        <table class="table table-striped align-middle">
+            <caption>Lista de todas las notas.</caption>
+            <thead><tr><th scope="col">Titulo</th><th scope="col">Contenido</th><th scope="col">Cuaderno</th><th scope="col">Acciones</th></tr></thead>
+            <tbody><tr th:each="note : ${notes}">
+                <td th:text="${note.title}"></td><td th:text="${note.content}"></td>
+                <td>
+                	<a th:text="${note.notebook.name}" th:href="@{/notes/notebook/{id}(id=${note.notebook.id})}">Editar</a>
+                </td>
+                <td class="text-nowrap">
+                    <a class="btn btn-sm btn-outline-primary" th:href="@{/notes/{id}/edit(id=${note.id})}">Editar</a>
+                    <a class="btn btn-sm btn-outline-danger" th:href="@{/notes/{id}/delete(id=${note.id})}">Eliminar</a>
+                </td>
+            </tr></tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

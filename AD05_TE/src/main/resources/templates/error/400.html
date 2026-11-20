@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Error 400')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container py-4"><h1>Error 400</h1><p>La solicitud contiene datos con un formato incorrecto.</p><a th:href="@{/}">Inicio</a></main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

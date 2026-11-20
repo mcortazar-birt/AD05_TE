@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Eliminar Cuaderno')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container py-4 form-page">
+    <h1>Eliminar cuaderno</h1>
+    <p>Cuaderno: <strong th:text="${notebook.name}"></strong></p>
+    <div class="alert alert-warning">
+        Se eliminará el cuaderno y todas sus notas.
+        Hay <strong th:text="${count}">0</strong> notas asociadas en este momento.
+    </div>
+    <form method="post" th:action="@{/notebooks/{id}/delete(id=${notebook.id})}">
+        <button class="btn btn-danger" type="submit">Confirmar eliminación</button>
+        <a class="btn btn-outline-secondary" th:href="@{/notebook}">Volver sin borrar</a>
+    </form>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

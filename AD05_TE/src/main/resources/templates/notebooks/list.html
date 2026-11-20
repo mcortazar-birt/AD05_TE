@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Cuadernos')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container py-4">
+    <h1>Cuadernos</h1>
+    <div th:replace="~{fragments/layout :: messages}"></div>
+    <a class="btn btn-primary mb-3" th:href="@{/notebooks/new}">Nuevo cuaderno</a>
+    <p th:if="${#lists.isEmpty(notebooks)}" class="alert alert-info">Todavía no hay cuadernos.</p>
+    <div class="table-responsive" th:unless="${#lists.isEmpty(notebooks)}">
+        <table class="table table-striped align-middle">
+            <caption>Cuadernos creados, ordenados por nombre(favoritos primero).</caption>
+            <thead><tr><th scope="col">Nombre</th><th scope="col">Descripción</th>
+                <th scope="col">Sujeto</th><th scope="col">Creación</th><th scope="col">Acciones</th></tr></thead>
+            <tbody><tr th:each="notebook : ${notebooks}">
+                <td>
+                	<a th:href="@{/notes/notebook/{id}(id=${notebook.id})}">
+		                <div style="display: flex; gap: 1em">
+		                <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" class="bi bi-square-half" fill="currentColor" viewBox="0 0 16 16" th:style="'color: ' + ${NotebookColorMap.getColor(notebook.color)}">
+						  <path d="M8 15V1h6a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1zm6 1a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/>
+						</svg>
+		                	<div th:text="${notebook.name}"></div>
+		                	<svg th:if="${notebook.favorite == true}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="auto" height="1.2em" fill="#F5BB27" class="bi bi-star-fill" viewBox="0 0 16 16">
+		  						<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+							</svg>
+		                </div>
+                	</a>
+               	</td>
+               	<td th:text="${notebook.description}"></td>
+                <td th:text="${notebook.subject}"></td><td th:text="${notebook.dateCreated.toString().replace('T', ' ')}"></td>
+                <td class="text-nowrap">
+                    <a class="btn btn-sm btn-outline-primary" th:href="@{/notebooks/{id}/edit(id=${notebook.id})}">Editar</a>
+                    <a class="btn btn-sm btn-outline-danger" th:href="@{/notebooks/{id}/delete(id=${notebook.id})}">Eliminar</a>
+                </td>
+            </tr></tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

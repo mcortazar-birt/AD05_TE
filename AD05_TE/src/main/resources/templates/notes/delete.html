@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Eliminar nota')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container py-4 form-page">
+    <h1>Eliminar nota</h1>
+    <p>Se eliminará la nota <strong th:text="${note.title}"></strong>.</p>
+    <p>Su cuaderno <strong th:text="${note.notebook.getName()}"></strong> se conservará.</p>
+    <form method="post" th:action="@{/notes/{id}/delete(id=${note.id})}">
+        <button class="btn btn-danger" type="submit">Confirmar eliminación</button>
+        <a class="btn btn-outline-secondary" th:href="@{/notes}">Volver sin borrar</a>
+    </form>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

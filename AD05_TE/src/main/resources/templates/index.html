@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Notas - Inicio')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container py-4">
+    <p class="text-secondary">DAM · Acceso a datos · UD05</p>
+    <h1>Cuadernos y notas</h1>
+    <p class="lead">Dos entidades relacionadas, una aplicación web completa.</p>
+    <div class="row g-4 mt-2">
+        <section class="col-md-6"><div class="card h-100"><div class="card-body">
+            <h2 class="h4">Cuadernos</h2><p>Consulta, crea, edita y elimina cuadernos.</p>
+            <a class="btn btn-primary" th:href="@{/notebooks}">Ver cuadernos</a>
+        </div></div></section>
+        <section class="col-md-6"><div class="card h-100"><div class="card-body">
+            <h2 class="h4">Notas</h2><p>Gestiona las notas y su cuaderno actual.</p>
+            <a class="btn btn-primary" th:href="@{/notes}">Ver notas</a>
+        </div></div></section>
+    </div>
+    <p class="alert alert-warning mt-4">Demostración local sin autenticación. No publicar en Internet.</p>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

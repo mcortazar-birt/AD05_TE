@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Formulario de nota')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container py-4 form-page">
+    <h1 th:text="${editId == null} ? 'Nuevo nota' : 'Editar nota'"></h1>
+    <form method="post" th:object="${noteForm}"
+          th:action="${editId == null} ? @{/notes/new} : @{/notes/{id}/edit(id=${editId})}">
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="mb-0"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="title">Título</label>
+            <input class="form-control" type="text" id="title" th:field="*{title}" maxlength="100" required
+                   th:errorclass="is-invalid" aria-describedby="title-error">
+            <div class="invalid-feedback" id="title-error" th:errors="*{title}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="content">Contenido</label>
+            <textarea class="form-control" type="text" id="content" th:field="*{content}" maxlength="1200" required
+                   th:errorclass="is-invalid" aria-describedby="content-error"></textarea>
+            <div class="invalid-feedback" id="content-error" th:errors="*{content}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="notebookId">Cuaderno</label>
+            <select class="form-select" id="notebookId" th:field="*{notebookId}" required
+                    th:errorclass="is-invalid" aria-describedby="notebookId-error">
+                <option value="">Selecciona un cuaderno</option>
+                <option th:each="notebook : ${notebooks}" 
+                		th:value="${notebook.id}" 
+                		th:text="${notebook.name}" 
+                		th:selected="${notebook.id == noteForm.notebookId}"></option>
+                
+            </select>
+            <div class="invalid-feedback" id="notebookId-error" th:errors="*{notebookId}"></div>
+            <p th:if="${#lists.isEmpty(notebooks)}" class="form-text">Primero debes crear un cuaderno.</p>
+        </div>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        <a class="btn btn-outline-secondary" th:href="@{/notes}">Cancelar</a>
+    </form>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
